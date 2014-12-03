@@ -1,0 +1,29 @@
+<!-- Show only if not logged on -->
+<div class="notLogged" ng-show="!auth.isLogged">
+	<div class="loginFormContainer">
+		<div class="login-welcome-text text-center">
+			<h1>Login to Meta Aggregator</h1>
+		</div>
+
+		<div class="col-md-offset-4 col-md-4">
+			<!-- Show welcome message when logged in -->
+			<span ng-show="auth.isLogged">{{welcome}}</span>
+
+			<!-- Form to input username and password  -->
+			<form class="fmLogin well" name="fmLogin" novalidate ng-show="!AuthenticationService.isLogged" ng-submit="login()">
+				<div class="form-group">
+					<input type="text" class="form-control" name="username" placeholder="Username" ng-model="user.username" ng-required="true">
+					<input type="password" class="form-control" name="password" placeholder="Password" ng-model="user.password" ng-required="true">
+				</div>
+				<button type="submit" class="btn btn-warning btn-lg" ng-disabled="fmLogin.$invalid">Login</button>
+			</form>
+
+			<hr>
+
+			<p><a href="#/register">Register</a></p>
+
+		</div>
+	</div>
+</div>
+
+

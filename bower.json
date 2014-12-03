@@ -1,0 +1,28 @@
+{
+	"name": "MetaAgg",
+	"authors": [
+		"Alex Shaw", 
+		"Kevin"
+	],
+	"description": "Use Metacritic to find video games",
+	"ignore": [
+		"node_modules",
+		"bower_components"
+	],
+	"dependencies": {
+		"jquery": "~2.1.1", 
+		"angular": "~1.2.0", 
+		"angular-resource": "~1.2.0",
+		"angular-cookies": "~1.2.0",
+		"angular-sanitize": "~1.2.0",
+		"angular-animate": "~1.2.0",
+		"angular-touch": "~1.2.0",
+		"angular-route": "~1.2.0", 
+		"angular-bootstrap-colorpicker": "~3.0.7",
+		"angular-flash": "~0.1.13", 
+		"bootstrap": "~3.2.0" 
+	}, 
+	"license": "GPLv3+",
+	"private": true
+}
+

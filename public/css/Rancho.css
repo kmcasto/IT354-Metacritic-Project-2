@@ -1,0 +1,28 @@
+/* latin */
+@font-face {
+	font-family: "Rancho";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Rancho"), url(../fonts/rancho.woff2) format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+	font-family: "Rancho";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Rancho"), url(../fonts/rancho.woff2) format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+.font-effect-shadow-multiple {
+	text-shadow: .04em .04em 0 #fff,.08em .08em 0 #aaa;
+	-webkit-text-shadow: .04em .04em 0 #fff, .08em .08em 0 #aaa;
+}
+
+.font-effect-3d-float {
+	text-shadow: 0 0.032em 0 #b0b0b0, 0px 0.15em 0.11em rgba(0,0,0,0.15), 0px 0.25em 0.021em rgba(0,0,0,0.1), 0px 0.32em 0.32em rgba(0,0,0,0.1);
+	color: #fff;
+}
+
+
