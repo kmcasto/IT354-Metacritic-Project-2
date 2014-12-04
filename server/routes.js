@@ -107,15 +107,19 @@ function logout(request, response) {
  */
 function addGame(request, response) {
 	/** Unique token key. */
+	//console.log('token thing');
+	//console.log(request.headers);
 	var token = jwtTools.getJwtFromHeader(request.headers);
  	var decoded = jwt.decode(token);
 
  	var userId = JSON.stringify(decoded.user_id);
 	userId = jwtTools.cleanUserId(userId);
 
+	console.log(request.body);
 	var gameName = request.body.name;
 
 	if(gameName === undefined) {
+		console.log('empty game.');
 		return;
 	}
 

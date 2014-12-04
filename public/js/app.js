@@ -290,7 +290,23 @@ Services.factory("authInterceptor", function($rootScope, $q, $window, Authentica
 
 Controllers.controller("GameCtrl", function($scope, $http, $location, $window, $rootScope) {
 	$scope.games = {};
-
+	console.log('woop');
+	
+	/*
+	// Simple POST request example (passing data) :
+	$http.post('/games/', {name:'hello world!'}).
+	success(function(data, status, headers, config) {
+		console.log('we good');
+		// this callback will be called asynchronously
+		// when the response is available
+		}).
+		error(function(data, status, headers, config) {
+		console.log('we bad');
+		// called asynchronously if an error occurs
+		// or server returns response with an error status.
+		});
+	*/
+	
 	/* GET /games */
 	var http_req = $http.get("/games");
 
@@ -299,8 +315,8 @@ Controllers.controller("GameCtrl", function($scope, $http, $location, $window, $
 
 		var encodedProfile = $window.sessionStorage.token.split(".")[1];
 		var profile = JSON.parse(url_base64_decode(encodedProfile));
-		$scope.error = "";
-		$rootScope.welcome = "Welcome " + JSON.stringify(profile.username);
+		$scope.error = ""
+		$rootScope.welcome = "Welcome " + JSON.stringify(profile.username).replace(/\"/g, "") + "!";
 	});
 
 	http_req.error(function(data, status, headers, config) {
@@ -317,22 +333,27 @@ Controllers.controller("GameCtrl", function($scope, $http, $location, $window, $
 
 	/* Add a video game */
 	$scope.addGame = function(game) {
+		console.log('add game');
 		var http_req = $http.post("/games", $scope.game)
 
 		http_req.success(function(data, status, headers, config) {
 			$scope.games = data;
+			console.log('add game success');
 		});
 
 		http_req.error(function(data, status, headers, config) {
+			console.log(data);
 			console.info("Error POSTing users games: " + data);
 		});
 	};
 		
 	/* DELETE a game from the users list. */
 	$scope.deleteGame = function(game) {
+		console.log('delete game');
 		var http_req = $http.delete("/games/" + game._id);
 
 		http_req.success(function(data, status, headers, config) {
+			console.log('delete game success');
 			$scope.game = data;
 		});
 
@@ -345,6 +366,74 @@ Controllers.controller("GameCtrl", function($scope, $http, $location, $window, $
 	$scope.clearGameForm = function(input) {
 		input.name = "";
 	};
+	
+	$scope.systems = [
+	{ name: 'ps4',    selected: false },
+	{ name: 'xboxone',   selected: false },
+	{ name: 'ps3',     selected: false },
+	{ name: 'xbox360', selected: false },
+	{ name: 'pc', selected: false },
+	{ name: 'wii-u', selected: false },
+	{ name: '3ds', selected: false },
+	{ name: 'vita', selected: false },
+	{ name: 'ios', selected: false },
+	];
+
+	// selected systems
+	$scope.selection = [];
+	var selections;
+
+	// helper method to get selected systems
+	$scope.selectedSystems = function selectedSystems() {
+	return filterFilter($scope.systems, { selected: true });
+	};
+
+	/*
+	$scope.buildGames = function(sysReq) {
+	// https://byroredux-metacritic.p.mashape.com/game-list/{platform}/{list_type}
+	$http.get('https://byroredux-metacritic.p.mashape.com/game-list/' + sysReq + '/new-releases').
+		success(function(data, status, headers, config) {
+			console.log('got games back');
+		// this callback will be called asynchronously
+		// when the response is available
+		}).
+		error(function(data, status, headers, config) {
+			console.log('didnt get games back');
+		// called asynchronously if an error occurs
+		// or server returns response with an error status.
+		});
+	}
+	*/
+	
+	var config = {headers:  {
+        'X-Mashape-Key' : 'UgBycoUL77msh0GyPlopOGGV4f6tp1JnUNPjsn5MzOuTjjKVp5',
+        'Accept': 'application/json;odata=verbose',
+        "X-Testing" : "testing"
+    }};
+	
+	function buildGames(system) {
+		var baseURL = "https://byroredux-metacritic.p.mashape.com/game-list/";
+		//"https://byroredux-metacritic.p.mashape.com/game-list/ps4/coming-soon"
+
+		$http.get(baseURL + system + "/new-releases", config).
+		success(function(data, status, headers, config) {
+			$scope.gameResults = data.results;
+		}).
+		error(function(data, status, headers, config) {
+		  // log error
+		});
+	}
+	
+	// watch systems for changes
+	$scope.$watch('systems|filter:{selected:true}', function (nv) {
+	selections = nv.map(function (system) {
+	console.log(system.name);
+	buildGames(system.name);
+	return system.name;
+	});
+	}, true);
+	
+
 });
 
 /*
