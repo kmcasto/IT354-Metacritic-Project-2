@@ -18,7 +18,9 @@ var userSchema = new Schema({
 	},
 	games:[{
 		name : String, 
-		link : String 
+		url : String ,
+		rlsdate: String,
+		platform: String
 	}]
 });
 

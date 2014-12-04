@@ -2,42 +2,50 @@
 	<h2 ng-bind="welcome"></h2>
 	<div class="row">
 		<div class="col-md-8">
-			<h1><span class="glyphicon glyphicon-list"></span> Your Games</h1>
+			<h1><span class="glyphicon glyphicon-list"></span> Your Saved Games</h1>
 			<div class="row">
 				<div class="col-md-12 game-item" ng-repeat="game in games">
 					<h4>
-						<a href="{{game.link}}" target="_blank">{{game.name}}</a>
+						<a href="{{game.url}}" target="_blank">{{game.name}}</a>
 						<span class="glyphicon glyphicon-remove" ng-click="deleteGame(game)"></span>
 					</h4>
-					<h4>{{game.desc}}</h4>
+					<h4>{{game.rlsdate}}</h4>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<h3>Find Games</h3>
-	
-	<form id="game-search" ng-submit="gameSearch()">
-	<label ng-repeat="system in systems">
-	<input
-	type="checkbox"
-	name="selectedSystems[]"
-	value="{{system.name}}"
-	ng-model="system.selected"
-	> {{system.name}}
-	</label>
-	</form>
-	
 	<div class="row">
 		<div class="col-md-8">
-			<h1><span class="glyphicon glyphicon-list"></span> Find Games</h1>
-			<div class="row">
+			<h1><span class="glyphicon glyphicon-list"></span> Find New Games</h1>
+			
+			<!--
+			<form id="game-search" ng-submit="gameSearch()">
+			<label ng-repeat="system in systems">
+			<input
+			type="checkbox"
+			name="selectedSystems[]"
+			value="{{system.name}}"
+			ng-model="system.selected"
+			> {{system.name}}
+			</label>
+			</form>
+			-->
+			
+			<button ng-click="buildGames('ps4')" class="btn btn-default">PS4</button>
+			<button ng-click="buildGames('xboxone')" class="btn btn-default">Xbox One</button>
+			<button ng-click="buildGames('wii-u')" class="btn btn-default">Wii U</button>
+			<button ng-click="buildGames('pc')" class="btn btn-default">PC</button>
+			<button ng-click="buildGames('3ds')" class="btn btn-default">3DS</button>
+			<button ng-click="buildGames('vita')" class="btn btn-default">Vita</button>
+			
+			<div class="row" style="margin-top: 2%">
 				<div class="col-md-12 game-item" ng-repeat="game in gameResults">
 					<h4>
-						<a href="{{game.link}}" target="_blank">{{game.name}}</a>
+						<a href="{{game.url}}" target="_blank">{{game.name}}</a>
 						<span class="glyphicon glyphicon-plus" ng-click="addGame(game)"></span>
 					</h4>
-					<h4>{{game.desc}}</h4>
+					<h4>{{game.platform}} {{game.rlsdate}}</h4>
 				</div>
 			</div>
 		</div>

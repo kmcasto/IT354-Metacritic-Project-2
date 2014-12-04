@@ -290,22 +290,6 @@ Services.factory("authInterceptor", function($rootScope, $q, $window, Authentica
 
 Controllers.controller("GameCtrl", function($scope, $http, $location, $window, $rootScope) {
 	$scope.games = {};
-	console.log('woop');
-	
-	/*
-	// Simple POST request example (passing data) :
-	$http.post('/games/', {name:'hello world!'}).
-	success(function(data, status, headers, config) {
-		console.log('we good');
-		// this callback will be called asynchronously
-		// when the response is available
-		}).
-		error(function(data, status, headers, config) {
-		console.log('we bad');
-		// called asynchronously if an error occurs
-		// or server returns response with an error status.
-		});
-	*/
 	
 	/* GET /games */
 	var http_req = $http.get("/games");
@@ -334,7 +318,8 @@ Controllers.controller("GameCtrl", function($scope, $http, $location, $window, $
 	/* Add a video game */
 	$scope.addGame = function(game) {
 		console.log('add game');
-		var http_req = $http.post("/games", $scope.game)
+		console.log(game);
+		var http_req = $http.post("/games", game)
 
 		http_req.success(function(data, status, headers, config) {
 			$scope.games = data;
@@ -360,6 +345,10 @@ Controllers.controller("GameCtrl", function($scope, $http, $location, $window, $
 		http_req.error(function(data, status, headers, config) {
 			console.log("Error deleting: " + data);
 		});
+		
+		// hack
+		$window.location.reload();
+
 	};
 
 	/* Clear Form */
@@ -388,30 +377,18 @@ Controllers.controller("GameCtrl", function($scope, $http, $location, $window, $
 	return filterFilter($scope.systems, { selected: true });
 	};
 
-	/*
-	$scope.buildGames = function(sysReq) {
-	// https://byroredux-metacritic.p.mashape.com/game-list/{platform}/{list_type}
-	$http.get('https://byroredux-metacritic.p.mashape.com/game-list/' + sysReq + '/new-releases').
-		success(function(data, status, headers, config) {
-			console.log('got games back');
-		// this callback will be called asynchronously
-		// when the response is available
-		}).
-		error(function(data, status, headers, config) {
-			console.log('didnt get games back');
-		// called asynchronously if an error occurs
-		// or server returns response with an error status.
-		});
-	}
-	*/
-	
 	var config = {headers:  {
         'X-Mashape-Key' : 'UgBycoUL77msh0GyPlopOGGV4f6tp1JnUNPjsn5MzOuTjjKVp5',
         'Accept': 'application/json;odata=verbose',
         "X-Testing" : "testing"
     }};
 	
-	function buildGames(system) {
+	  $scope.go = function() {
+
+    $scope.msg = 'clicked';
+  }
+  
+	$scope.buildGames = function(system) {
 		var baseURL = "https://byroredux-metacritic.p.mashape.com/game-list/";
 		//"https://byroredux-metacritic.p.mashape.com/game-list/ps4/coming-soon"
 
@@ -426,11 +403,11 @@ Controllers.controller("GameCtrl", function($scope, $http, $location, $window, $
 	
 	// watch systems for changes
 	$scope.$watch('systems|filter:{selected:true}', function (nv) {
-	selections = nv.map(function (system) {
-	console.log(system.name);
-	buildGames(system.name);
-	return system.name;
-	});
+		selections = nv.map(function (system) {
+		console.log(system.name);
+		buildGames(system.name);
+		return system.name;
+		});
 	}, true);
 	
 

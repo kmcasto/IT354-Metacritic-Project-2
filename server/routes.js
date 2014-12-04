@@ -107,8 +107,6 @@ function logout(request, response) {
  */
 function addGame(request, response) {
 	/** Unique token key. */
-	//console.log('token thing');
-	//console.log(request.headers);
 	var token = jwtTools.getJwtFromHeader(request.headers);
  	var decoded = jwt.decode(token);
 
@@ -117,13 +115,17 @@ function addGame(request, response) {
 
 	console.log(request.body);
 	var gameName = request.body.name;
+	var gameURL = request.body.url;
+	var rlsDate = request.body.rlsdate;
+	var gamePlatform = request.body.platform;
+	console.log(request.body);
 
 	if(gameName === undefined) {
 		console.log('empty game.');
 		return;
 	}
 
-	UserModel.findByIdAndUpdate(userId, { $push : { games: { name: gameName } } }, function(error, userdata) {
+	UserModel.findByIdAndUpdate(userId, { $push : { games: { name: gameName, url: gameURL, rlsdate: rlsDate, platform: gamePlatform } } }, function(error, userdata) {
 		if(error) {
 			response.send(error);
 		} else {
